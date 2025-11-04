@@ -28,8 +28,8 @@ A Data-Driven Distributional Approach to Gait Assessment: Quantifying Deviation 
 \maketitle
 
 \begin{abstract}
-    This research proposal presents a novel data-driven gait assessment metric designed to quantify patient improvement following neurological rehabilitation, particularly for stroke and Parkinson's disease patients participating in the Stimuloop program. Our approach captures the holistic nature of human gait by learning probability distributions over complete gait cycles from healthy control subjects, then measuring deviation from these normative patterns using distributional distance metrics such as KL-divergence or Wasserstein distance. The method processes 4-dimensional spatio-temporal graph data from motion capture systems, segments recordings into gait cycles, and constructs person-specific and population-level distributions. This purely data-driven approach provides a comprehensive assessment tool that captures the full complexity of gait patterns while remaining broadly applicable across different rehabilitation scenarios.
-\end{abstract}\newpage
+This research proposal presents a novel data-driven gait assessment metric designed to quantify patient improvement following neurological rehabilitation, particularly for stroke and Parkinson's disease patients participating in the Stimuloop program. Our approach captures the holistic nature of human gait by learning probability distributions over complete gait cycles from healthy control subjects, then measuring deviation from these normative patterns using appropriate distributional distance metrics. The method processes 4-dimensional spatio-temporal graph data from motion capture systems, segments recordings into gait cycles, and constructs person-specific and population-level distributions. This purely data-driven approach provides a comprehensive assessment tool that captures the full complexity of gait patterns while remaining broadly applicable across different rehabilitation scenarios.
+\end{abstract>\newpage
 \tableofcontents
 \newpage
 
@@ -57,7 +57,7 @@ The primary objectives of this research are:
     \item To develop a data-driven gait assessment metric based on probability distributions over complete gait cycles that quantifies deviation from healthy normative patterns
     \item To establish comprehensive normative gait distributions from a large dataset of healthy control subjects, with considerations for demographic conditioning (age, sex, height)
     \item To validate the metric's sensitivity in detecting gait improvements in stroke and Parkinson's disease patients undergoing rehabilitation
-    \item To demonstrate the clinical utility of distributional distance measures (KL-divergence, Wasserstein distance) for quantifying gait quality
+    \item To evaluate and compare various distributional distance measures for quantifying gait quality and deviation from normative patterns
     \item To create a robust, broadly applicable assessment tool suitable for various rehabilitation scenarios beyond the Stimuloop program
 \end{enumerate}\section{Literature Review}
 
@@ -116,11 +116,13 @@ While our primary focus is on distributional assessment, the recent advances in 
 
 However, our core distributional assessment approach remains independent of generative modeling, ensuring robust clinical applicability without dependence on complex generative architectures.
 
-\subsection{Distance Measures for Biological Data}
+\subsection{Distance Measures for Distributional Comparison}
 
-The choice of distance metric for comparing probability distributions is crucial for our approach. Kullback-Leibler (KL) divergence has been widely used in information theory and machine learning to measure the difference between probability distributions \citep{cover2006elements}. However, KL-divergence is asymmetric and can be undefined when distributions have non-overlapping support.
+The selection of appropriate distance metrics for comparing probability distributions is a critical methodological decision that will significantly impact the sensitivity and interpretability of our gait assessment approach. Various families of distance measures offer different theoretical properties and practical advantages for capturing deviations from normative patterns.
 
-The Wasserstein distance, also known as the Earth Mover's Distance, provides a more robust alternative \citep{villani2003topics}. It measures the minimum cost of transforming one distribution into another and has gained popularity in machine learning applications \citep{arjovsky2017wasserstein}. The Wasserstein distance is particularly well-suited for comparing distributions over structured spaces like gait cycles, as it naturally accounts for the geometric structure of the underlying space.
+Information-theoretic measures, such as divergences based on entropy and mutual information, provide principled frameworks for quantifying distributional differences. Geometric measures that respect the underlying structure of the data space may be particularly suitable for gait analysis, where temporal and spatial relationships are meaningful. Additionally, optimal transport-based distances can capture the effort required to transform one distribution into another, potentially offering intuitive interpretations of rehabilitation progress.
+
+The choice of distance measure will be determined through empirical evaluation, considering factors such as computational efficiency, sensitivity to clinically relevant changes, robustness to measurement noise, and interpretability for clinical practitioners. This data-driven selection process will ensure that our framework utilizes the most appropriate metric for the specific characteristics of gait data and clinical assessment requirements.
 
 \subsection{Neurological Gait Impairments}
 
@@ -141,7 +143,7 @@ Our approach models gait as probability distributions over complete gait cycles,
 Gait data is represented as 4-dimensional spatio-temporal graphs, where each node corresponds to an anatomical landmark with 3D spatial coordinates $(x, y, z)$ and temporal information $t$. For a single gait cycle, we have:
 
 \begin{equation}
-G_i = \{(x^j_i(t), y^j_i(t), z^j_i(t), t) : j \in \mathcal{J}, t \in [0, T_i]\}
+    G_i = \{(x^j_i(t), y^j_i(t), z^j_i(t), t) : j \in \mathcal{J}, t \in [0, T_i]\}
 \end{equation}
 
 where $i$ indexes the gait cycle, $j$ indexes anatomical landmarks in the set $\mathcal{J}$, and $T_i$ is the duration of cycle $i$.
@@ -151,20 +153,18 @@ where $i$ indexes the gait cycle, $j$ indexes anatomical landmarks in the set $\
 Raw motion capture recordings undergo automatic segmentation into individual gait cycles using heel-strike detection algorithms. Each cycle is temporally normalized to a standard duration to enable comparison across different walking speeds:
 
 \begin{equation}
-\tilde{G}_i = \{(x^j_i(\tau), y^j_i(\tau), z^j_i(\tau), \tau) : j \in \mathcal{J}, \tau \in [0, 1]\}
+    \tilde{G}_i = \{(x^j_i(\tau), y^j_i(\tau), z^j_i(\tau), \tau) : j \in \mathcal{J}, \tau \in [0, 1]\}
 \end{equation}
 
 where $\tau = t/T_i$ represents normalized time within the gait cycle.
 
 \subsection{Individual Gait Distribution Estimation}
 
-For each person $p$, we estimate their characteristic gait distribution from multiple recorded cycles. Let $\mathcal{G}_p = \{\tilde{G}_{p,1}, \tilde{G}_{p,2}, \ldots, \tilde{G}_{p,n_p}\}$ represent the set of normalized gait cycles for person $p$. We model the individual gait distribution as:
+For each person $p$, we estimate their characteristic gait distribution from multiple recorded cycles. Let $\mathcal{G}_p = \{\tilde{G}_{p,1}, \tilde{G}_{p,2}, \ldots, \tilde{G}_{p,n_p}\}$ represent the set of normalized gait cycles for person $p$.
 
-\begin{equation}
-P_p(\tilde{G}) = \frac{1}{n_p} \sum_{i=1}^{n_p} K_h(\tilde{G} - \tilde{G}_{p,i})
-\end{equation}
+The individual gait distribution $P_p(\tilde{G})$ will be estimated using appropriate density modeling techniques. The choice of density estimation method will be determined based on the dimensionality of the data, sample size, and distributional characteristics observed in the gait cycles. Potential approaches include parametric models (if suitable distributional assumptions can be validated), non-parametric methods, or hybrid approaches that combine multiple modeling strategies.
 
-where $K_h$ is a kernel density estimator with bandwidth $h$, chosen through cross-validation.
+The density estimation approach will be selected to optimally capture the underlying variability structure in individual gait patterns while maintaining computational tractability and statistical robustness for the available sample sizes.
 
 \subsection{Normative Distribution Construction}
 
@@ -172,7 +172,7 @@ The normative distribution is constructed from healthy control subjects. We cons
 
 \subsubsection{Unconditional Normative Distribution}
 \begin{equation}
-P_{norm}(\tilde{G}) = \frac{1}{N} \sum_{p=1}^{N} P_p(\tilde{G})
+    P_{norm}(\tilde{G}) = \frac{1}{N} \sum_{p=1}^{N} P_p(\tilde{G})
 \end{equation}
 
 where $N$ is the number of healthy control subjects.
@@ -181,30 +181,34 @@ where $N$ is the number of healthy control subjects.
 For demographic conditioning on variables $\mathbf{z} = (age, sex, height)^T$:
 
 \begin{equation}
-P_{norm}(\tilde{G}|\mathbf{z}) = \sum_{p=1}^{N} w_p(\mathbf{z}) P_p(\tilde{G})
+    P_{norm}(\tilde{G}|\mathbf{z}) = \sum_{p=1}^{N} w_p(\mathbf{z}) P_p(\tilde{G})
 \end{equation}
 
-where weights $w_p(\mathbf{z})$ are determined by kernel regression:
-
-\begin{equation}
-w_p(\mathbf{z}) = \frac{K_\sigma(\mathbf{z} - \mathbf{z}_p)}{\sum_{q=1}^{N} K_\sigma(\mathbf{z} - \mathbf{z}_q)}
-\end{equation}
+where weights $w_p(\mathbf{z})$ will be determined using appropriate statistical methods for incorporating demographic covariates. The specific weighting approach will be selected based on the distributional characteristics of the demographic variables and their relationship to gait patterns, ensuring robust conditioning while maintaining statistical validity.
 
 \subsection{Deviation Quantification Using Distributional Distances}
 
-We evaluate two primary distance measures for quantifying gait deviation:
+The core innovation of our approach lies in quantifying gait deviation through distributional distance measures. Rather than comparing discrete parameters, we will assess how much a patient's complete gait distribution differs from the normative distribution.
 
-\subsubsection{Kullback-Leibler Divergence}
-\begin{equation}
-D_{KL}(P_{patient} \| P_{norm}) = \int P_{patient}(\tilde{G}) \log \frac{P_{patient}(\tilde{G})}{P_{norm}(\tilde{G})} d\tilde{G}
-\end{equation}
+We will systematically evaluate multiple classes of distance measures to determine the most clinically relevant and mathematically appropriate metric for gait assessment:
 
-\subsubsection{Wasserstein Distance}
-\begin{equation}
-W_2(P_{patient}, P_{norm}) = \left(\inf_{\gamma \in \Gamma(P_{patient}, P_{norm})} \int \|\tilde{G}_1 - \tilde{G}_2\|^2 d\gamma(\tilde{G}_1, \tilde{G}_2)\right)^{1/2}
-\end{equation}
+\begin{itemize}
+    \item \textbf{Information-theoretic measures}: Divergences that quantify information loss or gain when comparing distributions
+    \item \textbf{Geometric distances}: Metrics that respect the underlying geometry and structure of the gait space
+    \item \textbf{Optimal transport distances}: Measures that quantify the minimal effort required to transform one distribution into another
+    \item \textbf{Statistical measures}: Classical statistical distance measures adapted for high-dimensional distributional comparison
+\end{itemize}
 
-where $\Gamma(P_{patient}, P_{norm})$ is the set of all joint distributions with marginals $P_{patient}$ and $P_{norm}$.
+The distance measure $D(P_{patient}, P_{norm})$ will be selected based on empirical evaluation of:
+\begin{enumerate}
+    \item Sensitivity to clinically meaningful changes
+    \item Computational efficiency for real-time assessment
+    \item Robustness to measurement noise and sample size variations
+    \item Interpretability for clinical practitioners
+    \item Statistical stability across different patient populations
+\end{enumerate}
+
+This comprehensive evaluation approach ensures that our final metric optimally captures the likelihood of observed gait patterns under the healthy population distribution, providing a principled foundation for quantifying deviation from normative gait.
 
 \subsection{Study Design and Participants}
 
@@ -250,7 +254,7 @@ This research is expected to produce:
 \begin{enumerate}
     \item \textbf{Novel Assessment Metric}: A validated data-driven gait assessment tool that quantifies deviation from normative patterns using distributional distances
     \item \textbf{Normative Database}: Comprehensive probability distributions representing healthy gait patterns, with demographic conditioning capabilities
-    \item \textbf{Clinical Validation}: Demonstrated sensitivity to gait improvements in stroke and Parkinson's patients, with established minimal 
+    \item \textbf{Clinical Validation}: Demonstrated sensitivity to gait improvements in stroke and Parkinson's patients, with established minimal
     \item \textbf{Clinical Impact}: Enhanced ability to track rehabilitation progress objectively with sensitivity improvements demonstrated through comparison with traditional methods and recent AI-driven approaches
 \end{enumerate}
 
@@ -259,10 +263,10 @@ This research is expected to produce:
 The primary outcome will be the \textbf{Gait Deviation Index (GDI)}, defined as:
 
 \begin{equation}
-GDI_{patient} = \min\{D(P_{patient}, P_{norm}(\cdot|\mathbf{z}_{patient})), D(P_{patient}, P_{norm})\}
+    GDI_{patient} = \min\{D(P_{patient}, P_{norm}(\cdot|\mathbf{z}_{patient})), D(P_{patient}, P_{norm})\}
 \end{equation}
 
-where $D$ represents either KL-divergence or Wasserstein distance, providing a single numeric score representing overall gait quality.
+where $D$ represents the optimal distributional distance measure selected through our empirical evaluation process, providing a single numeric score representing overall gait quality. This score quantifies the likelihood of the assessed gait patterns under the healthy population distribution, with higher values indicating greater deviation from normative patterns.
 
 
 % Bibliography
