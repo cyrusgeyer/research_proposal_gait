@@ -134,20 +134,19 @@ For each person $p$, let $\mathcal{G}_p = \{\tilde{G}_{p,1}, \tilde{G}_{p,2}, \l
 
 \subsection{Normative Distribution Construction}
 
-For healthy controls $\mathcal{H} = \{P_1, P_2, \ldots, P_N\}$, we construct the normative distribution $P_{norm}(\tilde{G}|\mathbf{z})$.
+For healthy controls $\mathcal{H} = \{P_1, P_2, \ldots, P_N\}$, we construct the normative distribution $P_{norm}(\tilde{G})$.
 
 \subsubsection{Distribution Aggregation}
-We evaluate:
+Possible approaches include:
 \begin{itemize}
-    \item Gaussian mixture models: $P_{norm} = \sum_{k=1}^K \pi_k \mathcal{N}(\mu_k, \Sigma_k)$
+    \item Gaussian mixture models: 
     \item Kernel density estimation with adaptive bandwidth
     \item Variational autoencoders for latent space modeling
     \item Weighted ensemble averaging
 \end{itemize}
 
 \subsubsection{Demographic Conditioning}
-We will also explore conditioning on demographic variables $\mathbf{z} = \{age, sex, height, weight\}$.
-Methods include similarity-based weighting schemes and parametric conditioning approaches to ensure appropriate normative comparisons across different population characteristics.
+We will also explore conditioning on demographic variables $\mathbf{z} = \{age, sex, height, weight\}$, such that $P_{norm}(\tilde{G}|\mathbf{z})$.
 
 \subsection{The Distributional Gait Assessment Index (DGAI)}
 
