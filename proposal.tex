@@ -111,23 +111,20 @@ For each person $p$, let $\mathcal{G}_p = \{\tilde{G}_{p,1}, \tilde{G}_{p,2}, \l
 
 \subsection{Normative Distribution Construction}
 
-The normative distribution is constructed from healthy control subjects. We consider two approaches:
+For healthy controls $\mathcal{H} = \{P_1, P_2, \ldots, P_N\}$, we construct the normative distribution $P_{norm}(\tilde{G}|\mathbf{z})$.
 
-\subsubsection{Unconditional Normative Distribution}
-\begin{equation}
-    P_{norm}(\tilde{G}) = \frac{1}{N} \sum_{p=1}^{N} P_p(\tilde{G})
-\end{equation}
+\subsubsection{Distribution Aggregation}
+We evaluate:
+\begin{itemize}
+    \item Gaussian mixture models: $P_{norm} = \sum_{k=1}^K \pi_k \mathcal{N}(\mu_k, \Sigma_k)$
+    \item Kernel density estimation with adaptive bandwidth
+    \item Variational autoencoders for latent space modeling
+    \item Weighted ensemble averaging
+\end{itemize}
 
-where $N$ is the number of healthy control subjects.
-
-\subsubsection{Conditional Normative Distribution}
-For demographic conditioning on $\mathbf{z} = (age, sex, height)^T$:
-
-\begin{equation}
-    P_{norm}(\tilde{G}|\mathbf{z}) = \sum_{p=1}^{N} w_p(\mathbf{z}) P_p(\tilde{G})
-\end{equation}
-
-where weights $w_p(\mathbf{z})$ incorporate demographic covariates using appropriate statistical methods.
+\subsubsection{Demographic Conditioning}
+We will also explore conditioning on demographic variables $\mathbf{z} = \{age, sex, height, weight\}$.
+Methods include similarity-based weighting schemes and parametric conditioning approaches to ensure appropriate normative comparisons across different population characteristics.
 
 \subsection{Deviation Quantification}
 
