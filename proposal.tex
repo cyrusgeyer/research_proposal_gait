@@ -28,115 +28,62 @@ A Data-Driven Distributional Approach to Gait Assessment: Quantifying Deviation 
 \maketitle
 
 \begin{abstract}
-This research proposal presents a novel data-driven gait assessment metric designed to quantify patient improvement following neurological rehabilitation, particularly for stroke and Parkinson's disease patients participating in the Stimuloop program. Our approach captures the holistic nature of human gait by learning probability distributions over complete gait cycles from healthy control subjects, then measuring deviation from these normative patterns using appropriate distributional distance metrics. The method processes 4-dimensional spatio-temporal graph data from motion capture systems, segments recordings into gait cycles, and constructs person-specific and population-level distributions. This purely data-driven approach provides a comprehensive assessment tool that captures the full complexity of gait patterns while remaining broadly applicable across different rehabilitation scenarios.
-\end{abstract>\newpage
+    We propose a data-driven gait assessment metric that quantifies patient improvement in neurological rehabilitation by modeling complete gait cycles as probability distributions. The method learns normative patterns from healthy controls and measures patient deviation using distributional distance metrics. We process 4D spatio-temporal motion capture data, segment into gait cycles, and construct individual and population-level distributions. This approach provides objective, comprehensive assessment of gait patterns applicable across rehabilitation scenarios.
+\end{abstract}\newpage
 \tableofcontents
 \newpage
 
 \section{Introduction}
 
-Gait assessment is fundamental to evaluating rehabilitation outcomes in neurological patients, particularly those recovering from stroke or living with Parkinson's disease \citep{dobkin2005rehabilitation, keus2007european}. Current clinical gait assessment methods typically rely on discrete parameters or subjective rating scales, which fail to capture the holistic, dynamic nature of human locomotion \citep{baker2013gait}. This research proposes a paradigm shift toward a purely data-driven approach that models gait as probability distributions over complete movement cycles.
+Current gait assessment methods rely on discrete parameters or subjective scales, failing to capture the holistic nature of human locomotion \citep{baker2013gait}. Traditional approaches examine isolated parameters, missing complex multidimensional changes in neurological conditions \citep{whittle2014gait}.
 
-\subsection{Motivation: The Need for Holistic Gait Assessment}
-
-Traditional gait analysis focuses on isolated kinematic and kinetic parameters such as stride length, cadence, or joint angles at specific time points \citep{whittle2014gait}. However, neurological conditions affect gait in complex, multidimensional ways that cannot be adequately captured by examining individual parameters in isolation. Rehabilitation programs like Stimuloop require sensitive metrics that can detect subtle improvements in overall movement quality and coordination.
-
-\subsection{The Distributional Perspective}
-
-Human gait exhibits natural variability even within healthy populations, and this variability contains important information about movement quality and control \citep{hausdorff2007gait}. By modeling gait as probability distributions over complete cycles, we can capture not only the central tendencies of movement patterns but also their inherent variability and the relationships between different phases of the gait cycle.
-
-\subsection{Research Gap}
-
-While machine learning approaches have been applied to gait analysis \citep{horst2019explaining, begg2005minimum}, most methods focus on classification or parameter extraction rather than comprehensive distributional modeling. There is a critical need for assessment tools that can quantify how much a patient's gait deviates from healthy patterns while being sensitive to improvements following rehabilitation interventions.
+We propose modeling gait as probability distributions over complete cycles to capture natural variability and movement quality \citep{hausdorff2007gait}. This distributional approach addresses the gap in comprehensive gait assessment tools that can quantify deviation from healthy patterns and detect rehabilitation improvements \citep{horst2019explaining}.
 
 \section{Research Objectives}
 
-The primary objectives of this research are:
-
 \begin{enumerate}
-    \item To develop a data-driven gait assessment metric based on probability distributions over complete gait cycles that quantifies deviation from healthy normative patterns
-    \item To establish comprehensive normative gait distributions from a large dataset of healthy control subjects, with considerations for demographic conditioning (age, sex, height)
-    \item To validate the metric's sensitivity in detecting gait improvements in stroke and Parkinson's disease patients undergoing rehabilitation
-    \item To evaluate and compare various distributional distance measures for quantifying gait quality and deviation from normative patterns
-    \item To create a robust, broadly applicable assessment tool suitable for various rehabilitation scenarios beyond the Stimuloop program
+    \item Develop a distributional gait assessment metric quantifying deviation from healthy patterns
+    \item Establish normative gait distributions with demographic conditioning (age, sex, height)
+    \item Validate metric sensitivity for detecting improvements in stroke and Parkinson's patients
+    \item Compare distributional distance measures for optimal gait quality quantification
+    \item Create a robust assessment tool applicable across rehabilitation scenarios
 \end{enumerate}\section{Literature Review}
 
-\subsection{Current Approaches to Gait Assessment}
+\subsection{Current Approaches}
 
-Traditional gait analysis relies heavily on discrete measurements such as temporal-spatial parameters (stride length, step width, cadence) and joint kinematics at specific gait events \citep{baker2013gait, whittle2014gait}. While these methods provide valuable insights, they often fail to capture the coordinated, dynamic nature of human locomotion and may miss subtle changes that occur during rehabilitation.
+Traditional gait analysis uses discrete measurements (stride length, cadence, joint angles) that fail to capture coordinated locomotion dynamics \citep{baker2013gait, whittle2014gait}.
 
-\subsection{Distributional and Probabilistic Approaches}
+\subsection{Probabilistic Approaches}
 
-Recent advances in probabilistic and generative modeling have helped to move gait analysis beyond traditional parameter-based methods toward comprehensive distributional representations. \citet{gholami2019probabilistic} applied hidden Markov models to gait data, demonstrating the value of probabilistic frameworks for capturing temporal dependencies in movement patterns.
+Probabilistic models show promise for comprehensive gait representation. \citet{gholami2019probabilistic} demonstrated hidden Markov models for temporal dependencies. \citet{stihi2025hierarchical} used Hierarchical Variational Sparse Heteroscedastic Gaussian Processes for multiple sclerosis analysis, capturing variability patterns and neurological impairment hallmarks.
 
-The emergence of hierarchical probabilistic models has shown particular promise. \citet{stihi2025hierarchical} introduced Hierarchical Variational Sparse Heteroscedastic Gaussian Processes (HVSHGP) for multiple sclerosis gait analysis, treating entire gait cycle waveforms as functions to be learned rather than extracting discrete parameters. This approach successfully captured both group-level differences and individual variability patterns, revealing subtle deviations in swing phase dynamics and quantifying stride-to-stride heteroscedasticity—hallmarks of neurological impairment.
+\subsection{Generative Models}
 
-\subsection{Generative Models for Gait Synthesis and Augmentation}
+Recent AI-driven generative models address data scarcity in clinical populations. \citet{peppes2023foggan} developed FoGGAN for Parkinson's episodes. \citet{adeli2025gaitgen} introduced GAITGen for conditional 3D gait generation. \citet{yamada2025synthetic} demonstrated physics-based approaches achieving superior performance through synthetic data diversity. \citet{rezvani2025diffusegaitnet} applied diffusion models for Parkinson's severity assessment.
 
-The past five years have witnessed constant growth in AI-driven generative models for gait analysis, addressing critical data scarcity issues in clinical populations. \citet{peppes2023foggan} developed FoGGAN, a GAN-based framework specifically for generating realistic Parkinson's freezing-of-gait episodes, demonstrating that synthetic data augmentation can significantly improve downstream classification accuracy.
+\subsection{Physics-Constrained Models}
 
-More sophisticated approaches have emerged for comprehensive gait generation. \citet{adeli2025gaitgen} introduced GAITGen, a conditional residual vector-quantized VAE combined with masked transformers, capable of generating full 3D gait cycles conditioned on Parkinson's disease severity levels. This work demonstrated the feasibility of disentangling normal motion dynamics from pathology-specific factors, enabling controlled generation of clinically meaningful gait patterns.
+\citet{takeishi2021physics} developed physics-integrated VAEs embedding biomechanical models for realistic gait generation. \citet{ghosh2025gait} validated biomechanical feasibility requirements, ensuring plausible and interpretable synthetic patterns.
 
-Recent work by \citet{yamada2025synthetic} represents a paradigm shift toward physics-based generative approaches. By leveraging musculoskeletal simulations with varied anatomical and locomotion parameters, they created vast synthetic gait datasets that achieved comparable performance to real data across multiple clinical tasks. Remarkably, models trained exclusively on synthetic data showed superior generalization when fine-tuned with limited real-world data, demonstrating the power of diverse synthetic training distributions.
+\subsection{Distributional Assessment Framework}
 
-Diffusion models have also entered the gait analysis domain. \citet{rezvani2025diffusegaitnet} applied denoising diffusion models to Parkinson's gait severity assessment, learning probabilistic generative representations that could synthesize novel gait variations conditioned on clinical features. This approach effectively enriched limited clinical datasets by generating synthetic samples that captured previously unseen movement variations.
+Our approach leverages distributional perspectives for assessment rather than generation. We focus on measuring deviation from normative patterns using probabilistic representations \citep{adeli2025gaitgen, takeishi2021physics}. This provides direct quantitative measures of gait abnormality while capturing variability inherent in neurological conditions. \citet{zhang2025gaitmotion} demonstrated 65\% improvement in estimation accuracy through distributional modeling, supporting our hypothesis that comprehensive distributional representations provide more sensitive assessment tools.
 
-\subsection{Physics-Constrained Generative Models}
 
-A notable advancement has been the integration of physical constraints into generative models. \citet{takeishi2021physics} developed physics-integrated VAEs that embed simplified biomechanical models (e.g., inverted pendulum dynamics) into the latent space, ensuring physically realistic gait generation. \citet{ghosh2025gait} further validated this concept by demonstrating that synthetic gait cycles must satisfy Newtonian mechanics and biomechanical feasibility through musculoskeletal simulation testing.
 
-These physics-constrained approaches address a fundamental limitation of purely data-driven generative models: ensuring that synthetic gait patterns remain biomechanically plausible and clinically interpretable.
+\subsection{Distance Measures}
 
-\subsection{From Generation to Assessment: The Distributional Paradigm}
+Distance metric selection critically impacts assessment sensitivity and interpretability. We will evaluate information-theoretic measures, geometric distances respecting gait structure, and optimal transport distances. Selection criteria include computational efficiency, clinical sensitivity, noise robustness, and practitioner interpretability.
 
-While recent generative models excel at creating synthetic gait data, our proposed approach leverages the distributional perspective for a complementary purpose: comprehensive assessment rather than generation. The success of generative models like GAITGen and physics-integrated VAEs demonstrates that probability distributions can effectively capture the complex, high-dimensional nature of gait patterns \citep{adeli2025gaitgen, takeishi2021physics}.
+\subsection{Clinical Context}
 
-Our distributional assessment framework builds upon these advances by using similar probabilistic representations—but focusing on measuring deviation from normative patterns rather than generating new samples. This approach addresses several limitations of current generative models for clinical assessment:
-
-\begin{itemize}
-    \item \textbf{Assessment Focus}: Rather than generating new gait patterns, we quantify how much a patient's gait distribution deviates from healthy norms
-    \item \textbf{Interpretability}: Distance metrics provide direct, quantitative measures of gait abnormality rather than requiring interpretation of latent space representations
-    \item \textbf{Robustness}: By modeling complete distributions rather than point estimates, our approach captures gait variability and uncertainty inherent in neurological conditions
-    \item \textbf{Clinical Relevance}: The framework directly addresses rehabilitation monitoring needs, providing sensitive measures of improvement over time
-\end{itemize}
-
-The work by \citet{zhang2025gaitmotion} particularly supports our approach, demonstrating that generative augmentation of pathological gait patterns leads to more robust assessment algorithms. Their TimeGAN-based augmentation achieved 65\% improvement in stride length estimation accuracy, suggesting that distributional modeling of gait variability enhances clinical measurement precision.
-
-Furthermore, the success of \citet{yamada2025synthetic} in achieving superior performance through synthetic data diversity aligns with our hypothesis that comprehensive distributional representations—capturing the full range of healthy gait variability—will provide more sensitive assessment tools than traditional parameter-based methods.
-
-\subsection{Potential Integration of Generative Models}
-
-While our primary focus is on distributional assessment, the recent advances in generative gait modeling present opportunities for future enhancement of our framework. Generative models could potentially address several challenges in our approach:
-
-\begin{itemize}
-    \item \textbf{Data Augmentation}: Following \citet{ghosh2025gait} and \citet{zhang2025gaitmotion}, we could use physics-constrained generative models to augment sparse regions of our normative distribution, particularly for underrepresented demographic groups
-    \item \textbf{Counterfactual Analysis}: Leveraging approaches like GAITGen \citep{adeli2025gaitgen}, we could generate "what-if" scenarios to better understand how specific pathological features contribute to distributional distances
-    \item \textbf{Personalized Baselines}: Generative models could help create individualized normative baselines by conditioning on patient-specific characteristics beyond basic demographics
-\end{itemize}
-
-However, our core distributional assessment approach remains independent of generative modeling, ensuring robust clinical applicability without dependence on complex generative architectures.
-
-\subsection{Distance Measures for Distributional Comparison}
-
-The selection of appropriate distance metrics for comparing probability distributions is a critical methodological decision that will significantly impact the sensitivity and interpretability of our gait assessment approach. Various families of distance measures offer different theoretical properties and practical advantages for capturing deviations from normative patterns.
-
-Information-theoretic measures, such as divergences based on entropy and mutual information, provide principled frameworks for quantifying distributional differences. Geometric measures that respect the underlying structure of the data space may be particularly suitable for gait analysis, where temporal and spatial relationships are meaningful. Additionally, optimal transport-based distances can capture the effort required to transform one distribution into another, potentially offering intuitive interpretations of rehabilitation progress.
-
-The choice of distance measure will be determined through empirical evaluation, considering factors such as computational efficiency, sensitivity to clinically relevant changes, robustness to measurement noise, and interpretability for clinical practitioners. This data-driven selection process will ensure that our framework utilizes the most appropriate metric for the specific characteristics of gait data and clinical assessment requirements.
-
-\subsection{Neurological Gait Impairments}
-
-Stroke and Parkinson's disease affect gait in characteristic ways. Post-stroke gait is often characterized by asymmetry, reduced walking speed, and compensatory movement patterns \citep{dobkin2005rehabilitation}. Parkinson's disease typically presents with reduced step length, increased step-to-step variability, and freezing episodes \citep{keus2007european}. Traditional metrics often capture these changes as isolated parameter deficits, missing the complex interactions between different aspects of the movement pattern.
-
-\subsection{Rehabilitation Assessment Needs}
-
-Effective rehabilitation requires sensitive outcome measures that can detect clinically meaningful changes \citep{mehrholz2017treadmill}. Current assessment tools often lack the sensitivity to capture gradual improvements or may be influenced by compensatory strategies that mask underlying recovery. A distributional approach could provide more comprehensive assessment by capturing improvements in overall movement coordination and quality.
+Post-stroke gait shows asymmetry and compensatory patterns \citep{dobkin2005rehabilitation}. Parkinson's disease presents reduced step length and increased variability \citep{keus2007european}. Traditional metrics miss complex interactions between movement aspects. Rehabilitation requires sensitive measures detecting gradual improvements \citep{mehrholz2017treadmill}.
 
 \section{Methodology}
 
-\subsection{Overview of the Distributional Gait Assessment Framework}
+\subsection{Framework Overview}
 
-Our approach models gait as probability distributions over complete gait cycles, enabling holistic assessment of movement patterns. The framework consists of three main components: (1) normative distribution learning from healthy controls, (2) patient-specific distribution estimation, and (3) distributional distance computation for deviation quantification.
+We model gait as probability distributions over complete cycles with three components: (1) normative distribution learning, (2) patient-specific estimation, and (3) distributional distance computation.
 
 \subsection{Data Representation}
 
@@ -160,11 +107,7 @@ where $\tau = t/T_i$ represents normalized time within the gait cycle.
 
 \subsection{Individual Gait Distribution Estimation}
 
-For each person $p$, we estimate their characteristic gait distribution from multiple recorded cycles. Let $\mathcal{G}_p = \{\tilde{G}_{p,1}, \tilde{G}_{p,2}, \ldots, \tilde{G}_{p,n_p}\}$ represent the set of normalized gait cycles for person $p$.
-
-The individual gait distribution $P_p(\tilde{G})$ will be estimated using appropriate density modeling techniques. The choice of density estimation method will be determined based on the dimensionality of the data, sample size, and distributional characteristics observed in the gait cycles. Potential approaches include parametric models (if suitable distributional assumptions can be validated), non-parametric methods, or hybrid approaches that combine multiple modeling strategies.
-
-The density estimation approach will be selected to optimally capture the underlying variability structure in individual gait patterns while maintaining computational tractability and statistical robustness for the available sample sizes.
+For each person $p$, let $\mathcal{G}_p = \{\tilde{G}_{p,1}, \tilde{G}_{p,2}, \ldots, \tilde{G}_{p,n_p}\}$ represent normalized gait cycles. We estimate $P_p(\tilde{G})$ using density modeling techniques selected based on dimensionality, sample size, and distributional characteristics. Approaches include parametric, non-parametric, or hybrid methods optimized for variability capture and computational tractability.
 
 \subsection{Normative Distribution Construction}
 
@@ -178,37 +121,17 @@ The normative distribution is constructed from healthy control subjects. We cons
 where $N$ is the number of healthy control subjects.
 
 \subsubsection{Conditional Normative Distribution}
-For demographic conditioning on variables $\mathbf{z} = (age, sex, height)^T$:
+For demographic conditioning on $\mathbf{z} = (age, sex, height)^T$:
 
 \begin{equation}
     P_{norm}(\tilde{G}|\mathbf{z}) = \sum_{p=1}^{N} w_p(\mathbf{z}) P_p(\tilde{G})
 \end{equation}
 
-where weights $w_p(\mathbf{z})$ will be determined using appropriate statistical methods for incorporating demographic covariates. The specific weighting approach will be selected based on the distributional characteristics of the demographic variables and their relationship to gait patterns, ensuring robust conditioning while maintaining statistical validity.
+where weights $w_p(\mathbf{z})$ incorporate demographic covariates using appropriate statistical methods.
 
-\subsection{Deviation Quantification Using Distributional Distances}
+\subsection{Deviation Quantification}
 
-The core innovation of our approach lies in quantifying gait deviation through distributional distance measures. Rather than comparing discrete parameters, we will assess how much a patient's complete gait distribution differs from the normative distribution.
-
-We will systematically evaluate multiple classes of distance measures to determine the most clinically relevant and mathematically appropriate metric for gait assessment:
-
-\begin{itemize}
-    \item \textbf{Information-theoretic measures}: Divergences that quantify information loss or gain when comparing distributions
-    \item \textbf{Geometric distances}: Metrics that respect the underlying geometry and structure of the gait space
-    \item \textbf{Optimal transport distances}: Measures that quantify the minimal effort required to transform one distribution into another
-    \item \textbf{Statistical measures}: Classical statistical distance measures adapted for high-dimensional distributional comparison
-\end{itemize}
-
-The distance measure $D(P_{patient}, P_{norm})$ will be selected based on empirical evaluation of:
-\begin{enumerate}
-    \item Sensitivity to clinically meaningful changes
-    \item Computational efficiency for real-time assessment
-    \item Robustness to measurement noise and sample size variations
-    \item Interpretability for clinical practitioners
-    \item Statistical stability across different patient populations
-\end{enumerate}
-
-This comprehensive evaluation approach ensures that our final metric optimally captures the likelihood of observed gait patterns under the healthy population distribution, providing a principled foundation for quantifying deviation from normative gait.
+We quantify gait deviation through distributional distance measures comparing patient distributions to normative patterns. We evaluate information-theoretic, geometric, optimal transport, and statistical distance measures based on clinical sensitivity, computational efficiency, noise robustness, interpretability, and stability across populations.
 
 \subsection{Study Design and Participants}
 
@@ -228,45 +151,28 @@ This comprehensive evaluation approach ensures that our final metric optimally c
     \item \textbf{Assessment timeline}: Baseline, 4 weeks, 8 weeks, 12 weeks post-intervention
 \end{itemize}
 
-\subsection{Statistical Analysis and Validation}
+\subsection{Validation}
 
-\subsubsection{Metric Validation}
-\begin{itemize}
-    \item \textbf{Construct validity}: Correlation with established clinical measures
-    \item \textbf{Sensitivity}: Ability to detect known group differences (healthy vs. patient)
-    \item \textbf{Responsiveness}: Ability to detect change following intervention
-    \item \textbf{Test-retest reliability}: Stability across repeated measurements
-\end{itemize}
-
-\subsubsection{Enhanced Validation Using Generative Models}
-Drawing inspiration from recent advances in gait synthesis, we will incorporate additional validation approaches:
-
-\begin{itemize}
-    \item \textbf{Synthetic Validation}: Following \citet{yamada2025synthetic}, we will validate our distributional distance measures using physics-based synthetic gait data with known deviations from normal patterns
-    \item \textbf{Generative Augmentation Testing}: Using approaches similar to \citet{zhang2025gaitmotion}, we will test whether our framework remains robust when normative distributions are augmented with synthetic healthy gait cycles
-    \item \textbf{Cross-Modal Validation}: We will compare our distributional assessments with state-of-the-art generative model latent representations (e.g., GAITGen embeddings) to ensure consistency across different mathematical frameworks
-\end{itemize}
+We assess construct validity (correlation with clinical measures), sensitivity (healthy vs. patient differences), responsiveness (intervention detection), and test-retest reliability. Additional validation includes synthetic data testing \citep{yamada2025synthetic}, generative augmentation robustness \citep{zhang2025gaitmotion}, and cross-modal consistency with generative model representations.
 
 \section{Expected Outcomes}
 
-This research is expected to produce:
-
 \begin{enumerate}
-    \item \textbf{Novel Assessment Metric}: A validated data-driven gait assessment tool that quantifies deviation from normative patterns using distributional distances
-    \item \textbf{Normative Database}: Comprehensive probability distributions representing healthy gait patterns, with demographic conditioning capabilities
-    \item \textbf{Clinical Validation}: Demonstrated sensitivity to gait improvements in stroke and Parkinson's patients, with established minimal
-    \item \textbf{Clinical Impact}: Enhanced ability to track rehabilitation progress objectively with sensitivity improvements demonstrated through comparison with traditional methods and recent AI-driven approaches
+    \item Validated distributional gait assessment metric quantifying deviation from normative patterns
+    \item Normative database with demographic conditioning capabilities
+    \item Clinical validation demonstrating sensitivity to rehabilitation improvements
+    \item Enhanced objective tracking of rehabilitation progress
 \end{enumerate}
 
-\subsection{Primary Outcome Measure}
+\subsection{Primary Outcome}
 
-The primary outcome will be the \textbf{Gait Deviation Index (GDI)}, defined as:
+The \textbf{Gait Deviation Index (GDI)}:
 
 \begin{equation}
     GDI_{patient} = \min\{D(P_{patient}, P_{norm}(\cdot|\mathbf{z}_{patient})), D(P_{patient}, P_{norm})\}
 \end{equation}
 
-where $D$ represents the optimal distributional distance measure selected through our empirical evaluation process, providing a single numeric score representing overall gait quality. This score quantifies the likelihood of the assessed gait patterns under the healthy population distribution, with higher values indicating greater deviation from normative patterns.
+where $D$ is the optimal distance measure, quantifying likelihood of gait patterns under healthy population distribution.
 
 
 % Bibliography
