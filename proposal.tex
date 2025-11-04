@@ -67,13 +67,13 @@ Traditional gait analysis relies heavily on discrete measurements such as tempor
 
 \subsection{Distributional and Probabilistic Approaches}
 
-Recent advances in probabilistic and generative modeling have revolutionized gait analysis, moving beyond traditional parameter-based methods toward comprehensive distributional representations. \citet{gholami2019probabilistic} applied hidden Markov models to gait data, demonstrating the value of probabilistic frameworks for capturing temporal dependencies in movement patterns.
+Recent advances in probabilistic and generative modeling have helped to move gait analysis beyond traditional parameter-based methods toward comprehensive distributional representations. \citet{gholami2019probabilistic} applied hidden Markov models to gait data, demonstrating the value of probabilistic frameworks for capturing temporal dependencies in movement patterns.
 
 The emergence of hierarchical probabilistic models has shown particular promise. \citet{stihi2025hierarchical} introduced Hierarchical Variational Sparse Heteroscedastic Gaussian Processes (HVSHGP) for multiple sclerosis gait analysis, treating entire gait cycle waveforms as functions to be learned rather than extracting discrete parameters. This approach successfully captured both group-level differences and individual variability patterns, revealing subtle deviations in swing phase dynamics and quantifying stride-to-stride heteroscedasticity—hallmarks of neurological impairment.
 
 \subsection{Generative Models for Gait Synthesis and Augmentation}
 
-The past five years have witnessed explosive growth in AI-driven generative models for gait analysis, addressing critical data scarcity issues in clinical populations. \citet{peppes2023foggan} developed FoGGAN, a GAN-based framework specifically for generating realistic Parkinson's freezing-of-gait episodes, demonstrating that synthetic data augmentation can significantly improve downstream classification accuracy.
+The past five years have witnessed constant growth in AI-driven generative models for gait analysis, addressing critical data scarcity issues in clinical populations. \citet{peppes2023foggan} developed FoGGAN, a GAN-based framework specifically for generating realistic Parkinson's freezing-of-gait episodes, demonstrating that synthetic data augmentation can significantly improve downstream classification accuracy.
 
 More sophisticated approaches have emerged for comprehensive gait generation. \citet{adeli2025gaitgen} introduced GAITGen, a conditional residual vector-quantized VAE combined with masked transformers, capable of generating full 3D gait cycles conditioned on Parkinson's disease severity levels. This work demonstrated the feasibility of disentangling normal motion dynamics from pathology-specific factors, enabling controlled generation of clinically meaningful gait patterns.
 
@@ -83,7 +83,7 @@ Diffusion models have also entered the gait analysis domain. \citet{rezvani2025d
 
 \subsection{Physics-Constrained Generative Models}
 
-A critical advancement has been the integration of physical constraints into generative models. \citet{takeishi2021physics} developed physics-integrated VAEs that embed simplified biomechanical models (e.g., inverted pendulum dynamics) into the latent space, ensuring physically realistic gait generation. \citet{ghosh2025gait} further validated this concept by demonstrating that synthetic gait cycles must satisfy Newtonian mechanics and biomechanical feasibility through musculoskeletal simulation testing.
+A notable advancement has been the integration of physical constraints into generative models. \citet{takeishi2021physics} developed physics-integrated VAEs that embed simplified biomechanical models (e.g., inverted pendulum dynamics) into the latent space, ensuring physically realistic gait generation. \citet{ghosh2025gait} further validated this concept by demonstrating that synthetic gait cycles must satisfy Newtonian mechanics and biomechanical feasibility through musculoskeletal simulation testing.
 
 These physics-constrained approaches address a fundamental limitation of purely data-driven generative models: ensuring that synthetic gait patterns remain biomechanically plausible and clinically interpretable.
 
@@ -210,29 +210,18 @@ where $\Gamma(P_{patient}, P_{norm})$ is the set of all joint distributions with
 
 \subsubsection{Phase 1: Normative Database Construction}
 \begin{itemize}
-    \item \textbf{Healthy controls}: $N = 200$ participants
-    \item \textbf{Age range}: 20-80 years, stratified by decade
+    \item \textbf{Healthy controls}: $N = 30$ participants
+    \item \textbf{Age range}: 40-70 years, stratified by decade
     \item \textbf{Gender}: Balanced representation
     \item \textbf{Exclusion criteria}: No history of neurological, orthopedic, or cardiovascular conditions affecting gait
 \end{itemize}
 
 \subsubsection{Phase 2: Clinical Validation}
 \begin{itemize}
-    \item \textbf{Stroke patients}: $n = 100$, recruited from rehabilitation centers
-    \item \textbf{Parkinson's patients}: $n = 100$, recruited from movement disorder clinics
-    \item \textbf{Stimuloop participants}: $n = 50$, undergoing specific rehabilitation protocol
+    \item \textbf{Stroke patients}: $n = 15$, recruited from rehabilitation centers
+    \item \textbf{Parkinson's patients}: $n = 15$, recruited from movement disorder clinics
+    \item \textbf{Stimuloop participants}: $n = 30$, undergoing specific rehabilitation protocol
     \item \textbf{Assessment timeline}: Baseline, 4 weeks, 8 weeks, 12 weeks post-intervention
-\end{itemize}
-
-\subsection{Data Collection Protocol}
-
-All participants undergo standardized motion capture assessment:
-\begin{itemize}
-    \item \textbf{Equipment}: Optical motion capture system with minimum 16 cameras
-    \item \textbf{Marker set}: Full-body model with 39 anatomical landmarks
-    \item \textbf{Walking trials}: 6 trials of comfortable-speed walking over 10-meter walkway
-    \item \textbf{Sampling rate}: 120 Hz minimum
-    \item \textbf{Additional measures}: Clinical gait assessments (10-meter walk test, Timed Up and Go) for validation
 \end{itemize}
 
 \subsection{Statistical Analysis and Validation}
@@ -254,15 +243,6 @@ Drawing inspiration from recent advances in gait synthesis, we will incorporate 
     \item \textbf{Cross-Modal Validation}: We will compare our distributional assessments with state-of-the-art generative model latent representations (e.g., GAITGen embeddings) to ensure consistency across different mathematical frameworks
 \end{itemize}
 
-\subsubsection{Computational Implementation}
-The framework will be implemented using:
-\begin{itemize}
-    \item \textbf{Python/NumPy}: Core numerical computations
-    \item \textbf{Scikit-learn}: Kernel density estimation and machine learning utilities
-    \item \textbf{POT (Python Optimal Transport)}: Wasserstein distance computation
-    \item \textbf{GPU acceleration}: For large-scale distance computations
-\end{itemize}
-
 \section{Expected Outcomes}
 
 This research is expected to produce:
@@ -270,13 +250,8 @@ This research is expected to produce:
 \begin{enumerate}
     \item \textbf{Novel Assessment Metric}: A validated data-driven gait assessment tool that quantifies deviation from normative patterns using distributional distances
     \item \textbf{Normative Database}: Comprehensive probability distributions representing healthy gait patterns, with demographic conditioning capabilities
-    \item \textbf{Clinical Validation}: Demonstrated sensitivity to gait improvements in stroke and Parkinson's patients, with established minimal detectable change thresholds
-    \item \textbf{Methodological Advancement}: Comprehensive comparison of KL-divergence vs. Wasserstein distance for gait assessment, informed by recent advances in generative modeling, with evidence-based recommendations for optimal distance metrics
-    \item \textbf{Integration Framework}: Guidelines for incorporating generative model insights (data augmentation, physics constraints) into distributional assessment, bridging the gap between generative AI and clinical evaluation
-    \item \textbf{Software Tools}: Open-source implementation with modular design enabling integration with existing generative gait models and broad adoption across rehabilitation centers
-    \item \textbf{Benchmark Dataset}: Validated distributional assessment results on established datasets, enabling comparison with generative modeling approaches from recent literature
+    \item \textbf{Clinical Validation}: Demonstrated sensitivity to gait improvements in stroke and Parkinson's patients, with established minimal 
     \item \textbf{Clinical Impact}: Enhanced ability to track rehabilitation progress objectively with sensitivity improvements demonstrated through comparison with traditional methods and recent AI-driven approaches
-    \item \textbf{Scientific Publications}: High-impact publications in rehabilitation medicine, biomechanics, medical informatics, and machine learning journals, contributing to both clinical and methodological literature
 \end{enumerate}
 
 \subsection{Primary Outcome Measure}
@@ -289,171 +264,6 @@ GDI_{patient} = \min\{D(P_{patient}, P_{norm}(\cdot|\mathbf{z}_{patient})), D(P_
 
 where $D$ represents either KL-divergence or Wasserstein distance, providing a single numeric score representing overall gait quality.
 
-\subsection{Competitive Advantages Over Generative Approaches}
-
-While recent generative models like GAITGen and DiffuseGaitNet excel at synthesis, our distributional assessment approach offers distinct advantages for clinical evaluation:
-
-\begin{itemize}
-    \item \textbf{Direct Interpretability}: Distance metrics provide immediately interpretable measures of abnormality, unlike latent space representations that require additional interpretation
-    \item \textbf{Computational Efficiency}: No need for complex generative architectures during assessment—once normative distributions are learned, patient evaluation is computationally lightweight
-    \item \textbf{Robustness}: Less susceptible to mode collapse or generation artifacts that can affect generative models
-    \item \textbf{Clinical Validation}: Direct correspondence between distance metrics and clinical severity measures, facilitating validation and adoption
-    \item \textbf{Regulatory Compliance}: Simpler mathematical framework may facilitate regulatory approval for clinical use compared to complex neural architectures
-\end{itemize}
-
-\section{Timeline}
-
-\begin{table}[h]
-  \centering
-  \begin{tabular}{|l|l|l|}
-    \hline
-    \textbf{Phase} & \textbf{Activity} & \textbf{Duration} \\
-    \hline
-    1 & Algorithm Development \& Implementation & Months 1-4 \\
-    & - Gait cycle segmentation algorithms & \\
-    & - Distribution estimation methods & \\
-    & - Distance metric computations & \\
-    \hline
-    2 & Normative Database Construction & Months 5-12 \\
-    & - Healthy control recruitment (n=200) & \\
-    & - Motion capture data collection & \\
-    & - Distribution learning and validation & \\
-    \hline
-    3 & Clinical Validation Study & Months 13-24 \\
-    & - Patient recruitment and baseline assessment & \\
-    & - Longitudinal data collection & \\
-    & - Stimuloop program integration & \\
-    \hline
-    4 & Analysis \& Validation & Months 25-30 \\
-    & - Statistical analysis and metric validation & \\
-    & - Clinical correlation studies & \\
-    & - Sensitivity and responsiveness testing & \\
-    \hline
-    5 & Dissemination \& Implementation & Months 31-36 \\
-    & - Software tool development & \\
-    & - Publication preparation & \\
-    & - Clinical implementation guidelines & \\
-    \hline
-  \end{tabular}
-  \caption{Project Timeline}
-\end{table}
-
-\section{Budget}
-
-\begin{table}[h]
-  \centering
-  \begin{tabular}{|l|r|}
-    \hline
-    \textbf{Budget Category} & \textbf{Amount (USD)} \\
-    \hline
-    Personnel (3 years) & \\
-    \quad - Principal Investigator (25\% effort) & \$150,000 \\
-    \quad - Postdoctoral Researcher (100\% effort) & \$180,000 \\
-    \quad - Graduate Student (50\% effort) & \$90,000 \\
-    \quad - Research Coordinator (50\% effort) & \$120,000 \\
-    \hline
-    Equipment & \\
-    \quad - Motion capture system upgrades & \$50,000 \\
-    \quad - Computing hardware (GPU cluster) & \$30,000 \\
-    \hline
-    Data Collection & \\
-    \quad - Participant compensation & \$25,000 \\
-    \quad - Clinical site fees & \$40,000 \\
-    \hline
-    Other Direct Costs & \\
-    \quad - Software licenses & \$15,000 \\
-    \quad - Travel and dissemination & \$20,000 \\
-    \quad - Publication fees & \$10,000 \\
-    \hline
-    \textbf{Total Direct Costs} & \$730,000 \\
-    Indirect Costs (25\%) & \$182,500 \\
-    \hline
-    \textbf{Total Project Cost} & \$912,500 \\
-    \hline
-  \end{tabular}
-  \caption{Budget Breakdown}
-\end{table}
-
-\section{Ethical Considerations}
-
-This research involves human subjects and will require institutional review board (IRB) approval. Key ethical considerations include:
-
-\begin{itemize}
-    \item \textbf{Informed Consent}: All participants will provide written informed consent, with particular attention to explaining the research purpose and data usage to patients with potential cognitive impairments
-    \item \textbf{Data Privacy}: Motion capture data will be de-identified and stored securely according to HIPAA requirements. Demographic conditioning variables will be anonymized
-    \item \textbf{Patient Burden}: Data collection sessions will be designed to minimize fatigue and discomfort for neurological patients
-    \item \textbf{Data Sharing}: Anonymized normative datasets will be made available to the research community to promote broader scientific advancement
-    \item \textbf{Clinical Translation}: Results will be shared with participants and their clinical teams when appropriate and beneficial for their care
-\end{itemize}
-
-\section{Significance and Impact}
-
-\subsection{Scientific Significance}
-
-This research represents a paradigm shift from traditional parameter-based gait analysis to distributional modeling of complete movement patterns. The approach addresses fundamental limitations in current assessment methods by:
-
-\begin{itemize}
-    \item Capturing the holistic nature of gait rather than isolated parameters
-    \item Providing a principled mathematical framework for quantifying deviation from normal patterns
-    \item Enabling personalized assessment through demographic conditioning
-    \item Establishing a foundation for data-driven rehabilitation monitoring
-\end{itemize}
-
-\subsection{Clinical Impact}
-
-The developed metric will provide clinicians with:
-
-\begin{itemize}
-    \item \textbf{Objective Assessment}: Quantitative measures of gait quality that complement subjective clinical evaluations
-    \item \textbf{Sensitive Monitoring}: Ability to detect subtle improvements that may be missed by traditional assessments
-    \item \textbf{Treatment Planning}: Data-driven insights to guide rehabilitation interventions
-    \item \textbf{Outcome Prediction}: Potential for predicting rehabilitation success based on baseline gait patterns
-\end{itemize}
-
-\subsection{Broader Applications}
-
-While developed for stroke and Parkinson's disease rehabilitation, the framework's data-driven nature makes it broadly applicable to:
-
-\begin{itemize}
-    \item Other neurological conditions (multiple sclerosis, cerebral palsy)
-    \item Orthopedic rehabilitation (joint replacement, injury recovery)
-    \item Aging and fall prevention studies
-    \item Sports performance and injury prevention
-    \item Pharmaceutical clinical trials requiring gait outcome measures
-\end{itemize}
-
-\section{Conclusion}
-
-This research proposal presents a novel data-driven approach to gait assessment that captures the holistic nature of human locomotion through distributional modeling. By learning normative patterns from healthy controls and quantifying patient deviations using principled distance metrics, our approach addresses fundamental limitations in current gait assessment methods.
-
-The proposed Gait Deviation Index provides a comprehensive, sensitive measure of movement quality that is particularly suited for monitoring rehabilitation progress in neurological patients. The framework's mathematical foundation ensures reproducibility and interpretability, while its data-driven nature enables broad applicability across different clinical populations and rehabilitation programs.
-
-This work represents a significant advancement in personalized rehabilitation medicine, providing clinicians with powerful tools for objective assessment and treatment monitoring. The expected outcomes will not only benefit patients in the Stimuloop program but will establish a new paradigm for gait analysis that can be adopted across the broader rehabilitation community.
-
-The integration of advanced mathematical concepts from optimal transport theory and information theory with clinical rehabilitation needs exemplifies the potential of interdisciplinary research to address real-world healthcare challenges. Upon completion, this project will deliver both theoretical contributions to the field of biomechanics and practical tools that directly improve patient care.
-
-\section{Appendix: Algorithm Summary}
-
-\begin{algorithm}[h]
-\caption{Data-Driven Gait Assessment Algorithm}
-\begin{algorithmic}
-\STATE \textbf{Phase 1: Normative Database Construction}
-\FOR{each healthy control subject $p = 1, \ldots, N$}
-    \STATE Collect gait cycles $\mathcal{G}_p = \{\tilde{G}_{p,1}, \ldots, \tilde{G}_{p,n_p}\}$
-    \STATE Estimate individual distribution $P_p(\tilde{G})$ using kernel density estimation
-\ENDFOR
-\STATE Learn normative distribution $P_{norm}(\tilde{G}|\mathbf{z})$ with demographic conditioning
-\\
-\STATE \textbf{Phase 2: Patient Assessment}
-\FOR{each patient}
-    \STATE Collect gait cycles $\mathcal{G}_{patient}$
-    \STATE Estimate patient distribution $P_{patient}(\tilde{G})$
-    \STATE Compute deviation measure:
-    \STATE $GDI = \min\{D(P_{patient}, P_{norm}(\cdot|\mathbf{z}_{patient})), D(P_{patient}, P_{norm})\}$
-    \STATE where $D \in \{D_{KL}, W_2\}$ (KL-divergence or Wasserstein distance)
-\ENDFOR
-\end{algorithmic}
-\end{algorithm}
 
 % Bibliography
 \bibliographystyle{apalike}
