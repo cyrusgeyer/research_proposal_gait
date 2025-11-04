@@ -1,0 +1,36 @@
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.vrb
+*.bcf
+*.run.xml
+*.lof
+*.lot
+
+# LaTeX temporary files
+*.backup
+*~
+*.swp
+*.swo
+
+# PDF files (uncomment if you don't want to track the generated PDF)
+# *.pdf
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Editor specific files
+*.kate-swp
+.*.swp
+.vscode/
+.idea/
