@@ -19,7 +19,7 @@
 
 % Title information
 \title{\textbf{Research Proposal:\\
-A Data-Driven Distributional Approach to Gait Assessment: Quantifying Deviation from Normal Gait Patterns}}
+Development and Validation of the Distributional Gait Assessment Index: A Novel Probabilistic Approach to Quantifying Gait Abnormality}}
 \author{Stimuloop Research Consortium}
 \date{\today}
 
@@ -28,7 +28,7 @@ A Data-Driven Distributional Approach to Gait Assessment: Quantifying Deviation 
 \maketitle
 
 \begin{abstract}
-    We propose a data-driven gait assessment metric that quantifies patient improvement in neurological rehabilitation by modeling complete gait cycles as probability distributions. The method learns normative patterns from healthy controls and measures patient deviation using distributional distance metrics. We process 4D spatio-temporal motion capture data, segment into gait cycles, and construct individual and population-level distributions. This approach provides objective, comprehensive assessment of gait patterns applicable across rehabilitation scenarios.
+    We propose the \textbf{Distributional Gait Assessment Index (DGAI)}, a novel data-driven metric that quantifies patient improvement in neurological rehabilitation by measuring deviation from normative gait patterns. Unlike the existing Gait Deviation Index which relies on discrete kinematic parameters, the DGAI models complete gait cycles as probability distributions, learns normative patterns from healthy controls, and measures patient deviation using optimal distributional distance metrics. By processing 4D spatio-temporal motion capture data and constructing individual and population-level distributions, the DGAI provides objective, comprehensive assessment of gait quality that captures natural movement variability. This distributional approach offers a sensitive tool for tracking rehabilitation progress across diverse neurological conditions, addressing critical gaps in current gait assessment methodologies.
 \end{abstract}\newpage
 \tableofcontents
 \newpage
@@ -37,21 +37,31 @@ A Data-Driven Distributional Approach to Gait Assessment: Quantifying Deviation 
 
 Current gait assessment methods rely on discrete parameters or subjective scales, failing to capture the holistic nature of human locomotion \citep{baker2013gait}. Traditional approaches examine isolated parameters, missing complex multidimensional changes in neurological conditions \citep{whittle2014gait}.
 
-We propose modeling gait as probability distributions over complete cycles to capture natural variability and movement quality \citep{hausdorff2007gait}. This distributional approach addresses the gap in comprehensive gait assessment tools that can quantify deviation from healthy patterns and detect rehabilitation improvements \citep{horst2019explaining}.
+We propose the \textbf{Distributional Gait Assessment Index (DGAI)}, which models gait as probability distributions over complete cycles to capture natural variability and movement quality \citep{hausdorff2007gait}. While the existing Gait Deviation Index provides valuable kinematic assessment, the DGAI addresses the critical gap in comprehensive distributional gait assessment tools by quantifying deviation from healthy patterns and providing sensitive detection of rehabilitation improvements \citep{horst2019explaining}. This novel metric represents a paradigm shift from discrete parameter analysis to holistic distributional assessment of human locomotion.
 
 \section{Research Objectives}
 
+\textbf{Primary Objective:}
+\begin{itemize}
+    \item Develop and validate the \textbf{Distributional Gait Assessment Index (DGAI)} as a comprehensive distributional metric for quantifying deviation from healthy gait patterns
+\end{itemize}
+
+\textbf{Secondary Objectives:}
 \begin{enumerate}
-    \item Develop a distributional gait assessment metric quantifying deviation from healthy patterns
-    \item Establish normative gait distributions with demographic conditioning (age, sex, height)
-    \item Validate metric sensitivity for detecting improvements in stroke and Parkinson's patients
-    \item Compare distributional distance measures for optimal gait quality quantification
-    \item Create a robust assessment tool applicable across rehabilitation scenarios
+    \item Establish robust normative gait distributions with demographic conditioning (age, sex, height, weight)
+    \item Validate DGAI sensitivity for detecting rehabilitation improvements in stroke and Parkinson's patients
+    \item Optimize distributional distance measures for maximal clinical sensitivity and interpretability
+    \item Demonstrate DGAI reliability and responsiveness across diverse rehabilitation scenarios
+    \item Create a standardized assessment protocol for clinical implementation of the DGAI
 \end{enumerate}\section{Literature Review}
 
 \subsection{Current Approaches}
 
 Traditional gait analysis uses discrete measurements (stride length, cadence, joint angles) that fail to capture coordinated locomotion dynamics \citep{baker2013gait, whittle2014gait}.
+
+\subsubsection{Existing Gait Deviation Index}
+
+The Gait Deviation Index (GDI), developed by \citet{schwartz2008gait}, represents a significant advancement in gait assessment by providing a single summary measure of overall gait pathology. The GDI uses principal component analysis of nine key kinematic variables from 3D gait analysis to create a multivariate index, where 100 represents typical gait and lower scores indicate greater deviation. While the GDI has proven valuable for clinical assessment and research \citep{baker2012gait}, it is limited to discrete kinematic parameters and does not capture the full distributional characteristics of gait patterns or the natural variability inherent in human locomotion \citep{rozumalski2010crouch}.
 
 \subsection{Probabilistic Approaches}
 
@@ -68,6 +78,19 @@ Recent AI-driven generative models address data scarcity in clinical populations
 \subsection{Distributional Assessment Framework}
 
 Our approach leverages distributional perspectives for assessment rather than generation. We focus on measuring deviation from normative patterns using probabilistic representations \citep{adeli2025gaitgen, takeishi2021physics}. This provides direct quantitative measures of gait abnormality while capturing variability inherent in neurological conditions. \citet{zhang2025gaitmotion} demonstrated 65\% improvement in estimation accuracy through distributional modeling, supporting our hypothesis that comprehensive distributional representations provide more sensitive assessment tools.
+
+\subsubsection{Beyond the Traditional Gait Deviation Index}
+
+While the established GDI provides valuable clinical insights through kinematic parameter analysis, it has inherent limitations. The GDI reduces complex gait patterns to a single score based on nine discrete variables, potentially missing subtle distributional changes and natural movement variability that characterize neurological conditions. Our proposed Distributional Gait Assessment Index (DGAI) addresses these limitations by:
+
+\begin{itemize}
+    \item Modeling complete gait cycles as probability distributions rather than discrete parameters
+    \item Capturing natural movement variability and temporal dynamics
+    \item Providing sensitivity to distributional changes that may precede kinematic abnormalities
+    \item Offering complementary information to the existing GDI for comprehensive assessment
+\end{itemize}
+
+The DGAI is designed to work alongside, not replace, the established GDI, providing a more comprehensive view of gait quality through distributional analysis.
 
 
 
@@ -126,9 +149,80 @@ We evaluate:
 We will also explore conditioning on demographic variables $\mathbf{z} = \{age, sex, height, weight\}$.
 Methods include similarity-based weighting schemes and parametric conditioning approaches to ensure appropriate normative comparisons across different population characteristics.
 
-\subsection{Deviation Quantification}
+\subsection{The Distributional Gait Assessment Index (DGAI)}
 
-We quantify gait deviation through distributional distance measures comparing patient distributions to normative patterns. We evaluate information-theoretic, geometric, optimal transport, and statistical distance measures based on clinical sensitivity, computational efficiency, noise robustness, interpretability, and stability across populations.
+The \textbf{Distributional Gait Assessment Index (DGAI)} is the core innovation of this research, providing a unified metric for quantifying gait abnormality through distributional analysis. Unlike the existing Gait Deviation Index which focuses on discrete kinematic variables, the DGAI captures the comprehensive deviation of a patient's gait pattern from normative healthy patterns while accounting for natural demographic variation and movement variability.
+
+\subsubsection{DGAI Definition}
+
+The DGAI for a patient $p$ is defined as:
+
+\begin{equation}
+    DGAI_p = \min\{D(P_p, P_{norm}(\cdot|\mathbf{z}_p)), D(P_p, P_{norm})\}
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $P_p$ is the patient's estimated gait distribution
+    \item $P_{norm}(\cdot|\mathbf{z}_p)$ is the demographic-conditioned normative distribution
+    \item $P_{norm}$ is the general population normative distribution
+    \item $D(\cdot, \cdot)$ is the optimal distributional distance measure
+    \item $\mathbf{z}_p$ represents patient demographic characteristics
+\end{itemize}
+
+The minimum operation ensures robustness by selecting the most appropriate normative comparison based on demographic similarity and distributional characteristics.
+
+\subsubsection{DGAI Interpretation}
+
+The DGAI provides an intuitive scale where:
+\begin{itemize}
+    \item \textbf{DGAI $\approx$ 0}: Gait pattern indistinguishable from healthy controls
+    \item \textbf{DGAI $>$ 0}: Increasing deviation from normative patterns
+    \item \textbf{Higher values}: Greater gait abnormality requiring intervention
+\end{itemize}
+
+\subsubsection{Distance Measure Selection}
+
+We systematically evaluate multiple distributional distance measures for optimal DGAI performance:
+
+\textbf{Information-Theoretic Measures:}
+\begin{itemize}
+    \item Kullback-Leibler divergence: $D_{KL}(P_p \| P_{norm}) = \int P_p(x) \log \frac{P_p(x)}{P_{norm}(x)} dx$
+    \item Jensen-Shannon divergence for symmetric comparison
+    \item Mutual information for dependency structure
+\end{itemize}
+
+\textbf{Geometric Distances:}
+\begin{itemize}
+    \item Wasserstein distance respecting gait manifold structure
+    \item Hellinger distance for probabilistic similarity
+    \item Maximum Mean Discrepancy for kernel-based comparison
+\end{itemize}
+
+\textbf{Statistical Measures:}
+\begin{itemize}
+    \item Energy distance for distribution comparison
+    \item Cramér-von Mises test statistics
+    \item Anderson-Darling measures for tail sensitivity
+\end{itemize}
+
+Selection criteria prioritize clinical sensitivity, computational efficiency, noise robustness, practitioner interpretability, and stability across diverse populations.
+
+\subsubsection{DGAI Validation Framework}
+
+We establish comprehensive validation protocols for the DGAI:
+
+\textbf{Construct Validity:} Correlation with established clinical measures (Berg Balance Scale, Fugl-Meyer Assessment, UPDRS-III)
+
+\textbf{Discriminant Validity:} Ability to distinguish healthy controls from patients across neurological conditions
+
+\textbf{Sensitivity:} Detection of subtle changes during rehabilitation progress
+
+\textbf{Specificity:} Minimal false positives in healthy population variation
+
+\textbf{Responsiveness:} Tracking rehabilitation improvements over time
+
+\textbf{Reliability:} Test-retest consistency and inter-session stability
 
 \subsection{Study Design and Participants}
 
@@ -154,22 +248,36 @@ We assess construct validity (correlation with clinical measures), sensitivity (
 
 \section{Expected Outcomes}
 
+\subsection{Primary Outcome: The Validated Distributional Gait Assessment Index}
+
+The primary deliverable of this research is a fully validated \textbf{Distributional Gait Assessment Index (DGAI)} that provides:
+
+\begin{itemize}
+    \item \textbf{Quantitative Assessment}: Objective measurement of gait deviation from normative patterns with established clinical thresholds
+    \item \textbf{Clinical Sensitivity}: Demonstrated ability to detect subtle rehabilitation improvements in stroke and Parkinson's patients
+    \item \textbf{Demographic Robustness}: Age, sex, and anthropometric conditioning for appropriate normative comparisons
+    \item \textbf{Standardized Protocol}: Ready-to-implement assessment methodology for clinical settings
+\end{itemize}
+
+\subsection{Supporting Deliverables}
+
 \begin{enumerate}
-    \item Validated distributional gait assessment metric quantifying deviation from normative patterns
-    \item Normative database with demographic conditioning capabilities
-    \item Clinical validation demonstrating sensitivity to rehabilitation improvements
-    \item Enhanced objective tracking of rehabilitation progress
+    \item \textbf{Normative Database}: Comprehensive normative gait distributions with demographic conditioning capabilities, serving as the foundation for DGAI computation
+    \item \textbf{Validation Evidence}: Clinical validation demonstrating DGAI sensitivity, specificity, and responsiveness across neurological conditions
+    \item \textbf{Implementation Guidelines}: Standardized protocols for DGAI assessment, interpretation, and clinical decision-making
+    \item \textbf{Software Framework}: Open-source implementation enabling widespread clinical adoption of the DGAI
 \end{enumerate}
 
-\subsection{Primary Outcome}
+\subsection{Clinical Impact}
 
-The \textbf{Gait Deviation Index (GDI)}:
-
-\begin{equation}
-    GDI_{patient} = \min\{D(P_{patient}, P_{norm}(\cdot|\mathbf{z}_{patient})), D(P_{patient}, P_{norm})\}
-\end{equation}
-
-where $D$ is the optimal distance measure, quantifying likelihood of gait patterns under healthy population distribution.
+The DGAI will transform gait assessment by providing:
+\begin{itemize}
+    \item Enhanced objective tracking of rehabilitation progress
+    \item Sensitive detection of subtle therapeutic improvements
+    \item Standardized outcome measurement across rehabilitation centers
+    \item Evidence-based optimization of intervention protocols
+    \item Improved patient engagement through quantifiable progress metrics
+\end{itemize}
 
 
 % Bibliography
